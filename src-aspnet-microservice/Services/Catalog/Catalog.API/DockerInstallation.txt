@@ -57,6 +57,6 @@ show collections
 db.Products.find({}).pretty()
 
 
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml up
 
-
-docker 
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down 
