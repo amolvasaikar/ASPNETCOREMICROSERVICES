@@ -1,5 +1,6 @@
 ﻿using Basket.Api.Entities;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
@@ -21,17 +22,17 @@ namespace Basket.Api.Repositories
         public async Task<ShoppingCart> GetBasket(string username)
         {
             var basket = await _distributedCache.GetStringAsync(username);
-            if (string.IsNullOrEmpty(basket) == null)
+
+            if (String.IsNullOrEmpty(basket))
                 return null;
 
             return JsonConvert.DeserializeObject<ShoppingCart>(basket);
         }
 
-        public async Task<ShoppingCart> UpdateBasket(ShoppingCart cart)
+        public async Task<ShoppingCart> UpdateBasket(ShoppingCart basket)
         {
-            await _distributedCache.SetStringAsync(cart.UserName,
-                JsonConvert.SerializeObject(cart));
-            return await GetBasket(cart.UserName);
+            await _distributedCache.SetStringAsync(basket.UserName, JsonConvert.SerializeObject(basket));
+            return await GetBasket(basket.UserName);
 
         }
     }

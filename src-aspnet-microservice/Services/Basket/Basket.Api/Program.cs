@@ -4,9 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var cofiguration = builder.Configuration;
+var connectionString = cofiguration.GetValue<string>("CacheSettings:ConnectionString");
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = cofiguration.GetValue<string>("CacheSetting:ConnectionString");
+    options.Configuration = connectionString;
 });
 builder.Services.AddControllers();
 builder.Services.AddScoped<IBaskerRepository, BaskerRepository>();
